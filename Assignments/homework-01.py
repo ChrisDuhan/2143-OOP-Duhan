@@ -84,6 +84,36 @@ xrot = rotate(x, 3)
 print(xrot)
 print()
 
+superbowls = {'joe montana': 4, 'tom brady':3, 'joe flacco': 0}
+superbowls['peyton manning'] = 1
+superbowls['joe flacco'] = 1
+print('colin kaepernick' in superbowls)
+#Prints: False
+
+print(len(superbowls))
+#Prints: 4
+
+print(superbowls['peyton manning'] == superbowls['joe montana'])
+#Prints: False
+
+superbowls[('eli manning', 'giants')] = 2
+print(superbowls)
+#Prints: {('eli manning', 'giants'): 2, 'tom brady': 3, 'joe flacco': 1, 'peyton manning': 1, 'joe montana': 4}
+
+superbowls[3] = 'cat'
+print(superbowls)
+#Prints: {3: 'cat', 'joe flacco': 1, ('eli manning', 'giants'): 2, 'joe montana': 4, 'tom brady': 3, 'peyton manning': 1}
+
+
+superbowls[('eli manning', 'giants')] =  superbowls['joe montana'] + superbowls['peyton manning']
+print(superbowls)
+#Prints: {3: 'cat', 'joe flacco': 1, ('eli manning', 'giants'): 5, 'joe montana': 4, 'tom brady': 3, 'peyton manning': 1}
+
+superbowls[('steelers', '49ers')] = 11
+print(superbowls)
+#Prints: {3: 'cat', ('steelers', '49ers'): 11, 'peyton manning': 1, ('eli manning', 'giants'): 5, 'tom brady': 3, 'joe flacco': 1, 'joe montana': 4}
+print()
+
 d = {1:{2:3, 3:4}, 2:{4:4, 5:3}} 
 def replace_all(d, x, y):
     for k in d.keys(): 
