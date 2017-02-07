@@ -198,13 +198,20 @@ class Hand(list):
 def play_a_hand(card):
     PC = card
     CC = CH.play_card()
+    input("Press Enter to play a hand\n")
     if PC.lt(CC):
-        print("You lost the hand")
+        print("You lost the hand\n")
     elif CC.lt(PC):
-        Print("You won the hand")
+        Print("You won the hand\n")
     else:
-        pass #might need a list for the played cards and for the war stack
-    
+        print("War!")
+        input("Press Enter to Play a War hand\n")
+        war_stack = []
+        for i in range(3):
+            war_stack.append(H.pop_card())
+            war_stack.append(CH.pop_card())
+        play_a_hand(H.pop_card())
+    input("Press Enter for next hand\n")
 H = Hand()
 CH = Hand()
 D = Deck()
