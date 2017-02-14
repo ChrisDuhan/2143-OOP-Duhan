@@ -58,7 +58,7 @@ class Card(object):
 
         self.ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King","Ace"]
         
-    self.card_values = {
+        self.card_values = {
             '2': 2,
             '3': 3,
             '4': 4,
@@ -194,30 +194,44 @@ class Hand(list):
         
     def __getitem__(self,key):
         return self._list[key]
+
+    
+class Game(object,player_name):
+    def __init__(self):
+        self.C = {"name":"Computer","hand":Hand()}
+        self.P = {"name":player_name,"hand":Hand()}
+        self.D = Deck()
+        self.D.shuffle()
+    
+    def game_start(self):
+        for i in range(26):
+            self.C['hand'].add(self.D.pop_card())
+            self.P['hand'].add(self.D.pop_card())
         
-def play_a_hand(card):
-    PC = card
-    CC = CH.play_card()
-    input("Press Enter to play a hand\n")
-    if PC.lt(CC):
-        print("You lost the hand\n")
-    elif CC.lt(PC):
-        Print("You won the hand\n")
-    else:
-        print("War!")
-        input("Press Enter to Play a War hand\n")
-        war_stack = []
-        for i in range(3):
+    def play_a_hand(self,card):
+        PC = card
+        CC = C['hand'].play_card()
+        input("Press Enter to play a hand\n")
+        if PC.lt(CC):
+            print("You lost the hand\n")
+            for i in range(war_stack):
+                C['hand'].add(war_stack.pop_card())
+        elif CC.lt(PC):
+            Print("You won the hand\n")
+            for i in range(war_stack):
+                P['hand'].add(war_stack.pop_card())
+        else:
+            print("War!")
+            input("Press Enter to Play a War hand\n")
+            war_stack = []
             war_stack.append(H.pop_card())
             war_stack.append(CH.pop_card())
-        play_a_hand(H.pop_card())
-    input("Press Enter for next hand\n")
-H = Hand()
-CH = Hand()
-D = Deck()
-D.shuffle()
-for i in range(26):
-    H.add(D.pop_card())
-    CH.add(D.pop_card())
+            play_a_hand(H.pop_card())
+    
+        input("Press Enter for next hand\n")
+
+new_game = Game(Max)
+new_game.game_start()
+print(P['hand'])
 
 
