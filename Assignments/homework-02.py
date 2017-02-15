@@ -187,7 +187,7 @@ class Hand(list):
         self._list.append(card)
         
     def play_card(self):
-        return self.cards.pop(0)
+        return self._list.pop(0)
         
     def sort(self):
         self._list = sorted(self._list)
