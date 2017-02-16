@@ -207,31 +207,43 @@ class Game(object,player_name):
         for i in range(26):
             self.C['hand'].add(self.D.pop_card())
             self.P['hand'].add(self.D.pop_card())
+        random.shuffle(self.P['hand'])
+        random.shuffle(self.C['hand'])
         
     def play_a_hand(self,card):
         PC = card
         CC = C['hand'].play_card()
-        input("Press Enter to play a hand\n")
+        #input("Press Enter to play a hand\n")
         if PC.lt(CC):
             print("You lost the hand\n")
+            #time.sleep(0.5)
+            os.system('cls')
+            os.system('clear')
             for i in range(war_stack):
                 C['hand'].add(war_stack.pop_card())
         elif CC.lt(PC):
             Print("You won the hand\n")
+            #time.sleep(0.5)
+            os.system('cls')
+            os.system('clear')
             for i in range(war_stack):
                 P['hand'].add(war_stack.pop_card())
         else:
             print("War!")
-            input("Press Enter to Play a War hand\n")
+            #input("Press Enter to Play a War hand\n")
             war_stack = []
             war_stack.append(H.pop_card())
             war_stack.append(CH.pop_card())
             play_a_hand(H.pop_card())
+    time.sleep(2)
+    os.system('cls')
     
-        input("Press Enter for next hand\n")
+        #input("Press Enter for next hand\n")
 
-new_game = Game(Max)
+G_name = input('Give your game a name: ')
+new_game = Game(G_name)
 new_game.game_start()
 print(P['hand'])
 
-
+while len(P['hand']) and len(P['hand']) not == 0:
+    new_game.play_a_hand(P['hand'].play_card())
