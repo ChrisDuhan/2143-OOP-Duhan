@@ -6,8 +6,10 @@ Due: 14 Feb @ 11:00 a.m.
 """
 
 import os
+import time
 import random
 
+#Source for cards and card class: http://codereview.stackexchange.com/questions/82103/ascii-fication-of-playing-cards
 CARD = """\
 ┌───────┐
 │{}     │
@@ -17,7 +19,6 @@ CARD = """\
 │     {}│
 └───────┘
 """.format('{trank:^2}', '{suit: <2}', '{brank:^2}')
-
 TEN = """\
 ┌───────┐
 │{}    │
@@ -27,7 +28,6 @@ TEN = """\
 │    {}│
 └───────┘
 """.format('{trank:^3}', '{suit: <2}', '{brank:^3}')
-
 FACECARD = """\
 ┌───────┐
 │{}│
@@ -37,7 +37,6 @@ FACECARD = """\
 │{}│
 └───────┘
 """.format('{trank:<7}', '{suit: <2}', '{brank:>7}')
-
 HIDDEN_CARD = """\
 ┌───────┐
 │░░░░░░░│
@@ -55,9 +54,7 @@ class Card(object):
         :param suit: The face of the card, e.g. Spade or Diamond
         :param rank: The value of the card, e.g 3 or King
         """
-
         self.ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King","Ace"]
-        
         self.card_values = {
             '2': 2,
             '3': 3,
@@ -73,7 +70,6 @@ class Card(object):
             'King': 10,
             'Ace': 11,  # value of the ace is high until it needs to be low
         }
-
         self.str_values = {
             '2': CARD,
             '3': CARD,
@@ -89,17 +85,14 @@ class Card(object):
             'King': FACECARD,
             'Ace': FACECARD,  # value of the ace is high until it needs to be low
         }
-
         self.suits = ['Spades','Hearts','Diamonds','Clubs']
-
         self.symbols = {
             'Spades':   '♠',
             'Diamonds': '♦',
             'Hearts':   '♥',
             'Clubs':    '♣',
         }
-
-
+        
         if type(suit) is int:
             self.suit = self.suits[suit]
         else:
@@ -109,7 +102,6 @@ class Card(object):
         self.points = self.card_values[str(rank)]
         self.ascii = self.__str__()
     
-
     def __str__(self):
         symbol = self.symbols[self.suit]
         trank = self.rank+symbol
@@ -118,12 +110,12 @@ class Card(object):
            
     def __cmp__(self,other):
         return self.ranks.index(self.rank) < self.ranks.index(other.rank) 
-   
-    # Python3 wasn't liking the __cmp__ to sort the cards, so 
-    # documentation told me to use the __lt__ (less than) 
-    # method.
+    
     def __lt__(self,other):
         return self.__cmp__(other)
+        
+    def stringy(self):
+        self.ascii = self.__str__()
 
 """
 @Class Deck 
@@ -161,6 +153,15 @@ class Deck(object):
     def sort(self):
         self.cards = sorted(self.cards)
 
+"""
+@Class Hand 
+@Description:
+    This class represents a players' hand of cards. 
+@Methods:
+    play_card() - removes a card from top of deck
+    add(card) - adds a card to bottom of deck
+    shuffle() - shuffles the hand
+""" 
 class Hand(list):
     def __init__(self, cards=None):
         """Initialize the class"""
@@ -182,68 +183,153 @@ class Hand(list):
         """
         liness = [card.ascii.splitlines() for card in self._list]
         return '\n'.join(''.join(lines) for lines in zip(*liness))
-        
+    
     def add(self,card):
         self._list.append(card)
-        
+    
     def play_card(self):
         return self._list.pop(0)
-        
-    def sort(self):
-        self._list = sorted(self._list)
-        
-    def __getitem__(self,key):
-        return self._list[key]
-
     
-class Game(object,player_name):
-    def __init__(self):
-        self.C = {"name":"Computer","hand":Hand()}
-        self.P = {"name":player_name,"hand":Hand()}
+    def shuffle(self):
+        random.shuffle(self._list)
+
+"""
+@Class Game 
+@Description:
+    This class represents a game of War
+@Methods:
+    game_start() - prepares the players hands
+    play() - a card from each palyer is compared and the winner takes both,
+        if war occurs it makes a war stack and plays again
+    
+    play() is currently set up to auto-play the whole game, if you want to play each round yourself
+        you can uncomment the commands below that ask for input
+""" 
+class Game(object):
+    def __init__(self,player_name):
         self.D = Deck()
         self.D.shuffle()
-    
-    def game_start(self):
-        for i in range(26):
-            self.C['hand'].add(self.D.pop_card())
-            self.P['hand'].add(self.D.pop_card())
-        random.shuffle(self.P['hand'])
-        random.shuffle(self.C['hand'])
+
+        self.C = player("Computer")
+        self.P = player(player_name)
+
+        self.winner = None
+        self.rounds = 0
+        self.cards_in_play = Hand()
+        self.deal()
+        self.play()
         
-    def play_a_hand(self,card):
-        PC = card
-        CC = C['hand'].play_card()
-        #input("Press Enter to play a hand\n")
-        if PC.lt(CC):
-            print("You lost the hand\n")
-            #time.sleep(0.5)
+    def deal(self):
+        for i in range(26):
+            self.C.H.add(self.D.pop_card())
+            self.P.H.add(self.D.pop_card())
+
+    # def compare(self, playerCard, computerCard):
+    #     if(playerCard > computerCard):
+    #         self.win = self.P
+    #     elif (playerCard < computerCard):
+    #         self.win = self.C
+    #     else:
+    #         self.win = "tie"
+    #     return self.win
+
+    def emptyPot(self, winningPlayer):
+        while(len(self.cards_in_play._list)):
+            winningPlayer.H.add(self.cards_in_play.play_card())
+        while(len(self.P.war._list)):
+            self.P.war.play_card()
+        while(len(self.C.war._list)):
+            self.C.war.play_card()
+
+    def tie(self, p, c):
+        os.system('cls')
+        os.system('clear')
+        
+        # only if there is more than one card in a player's hand
+        
+        # exits after popping two cards in to each players war hand and the main pot
+
+        # game continues as normal in main game loop
+        
+        if(len(c.H._list) > 1):
+            c.war.add(c.H._list[0])
+            self.cards_in_play.add(c.H.play_card())
+        if(len(c.H._list) > 1):
+            self.temp = c.H._list[0]
+        
+        # set cards string method to print hidden
+
+            self.temp.ascii = HIDDEN_CARD
+            c.war.add(self.temp)
+            self.cards_in_play.add(c.H.play_card())
+
+        if(len(p.H._list) > 1):
+            p.war.add(p.H._list[0])
+            self.cards_in_play.add(p.H.play_card())
+            
+        if(len(p.H._list) > 1):
+            self.temp = p.H._list[0]
+
+        # set cards string method to print hidden
+
+            self.temp.ascii = HIDDEN_CARD
+            p.war.add(self.temp)
+            self.cards_in_play.add(p.H.play_card())
+
+        print(c.name + "'s hand:\n")
+        print(c.war)
+        print()
+        print(p.war)
+        print()
+        print(p.name + "'s hand:")
+        print()
+
+        # time.sleep(.5)
+
+
+    def play(self):
+        while(len(self.C.H._list) and len(self.P.H._list)):
             os.system('cls')
             os.system('clear')
-            for i in range(war_stack):
-                C['hand'].add(war_stack.pop_card())
-        elif CC.lt(PC):
-            Print("You won the hand\n")
-            #time.sleep(0.5)
-            os.system('cls')
-            os.system('clear')
-            for i in range(war_stack):
-                P['hand'].add(war_stack.pop_card())
-        else:
-            print("War!")
-            #input("Press Enter to Play a War hand\n")
-            war_stack = []
-            war_stack.append(H.pop_card())
-            war_stack.append(CH.pop_card())
-            play_a_hand(H.pop_card())
-    time.sleep(2)
-    os.system('cls')
-    
-        #input("Press Enter for next hand\n")
+            print(self.C.name)
+            print(self.C.H._list[0])
+            print(self.P.H._list[0])
+            print(self.P.name)
+            print()
+            
+            if (self.P.H._list[0].rank == self.C.H._list[0].rank):
+                self.tie(self.P, self.C)
+                
+            else:
+                self.cards_in_play.add(self.P.H.play_card())
+                self.cards_in_play.add(self.C.H.play_card())
+                self.emptyPot(self.winner)
+                print(self.winner.name + " wins")
+                
+                for card in self.P.H._list:
+                    card.stringy()
+                    
+                for card in self.C.H._list:
+                    card.stringy()
 
-G_name = input('Give your game a name: ')
-new_game = Game(G_name)
-new_game.game_start()
-print(P['hand'])
+            self.rounds = 0
+            self.rounds = self.rounds + 1
 
-while len(P['hand']) and len(P['hand']) not == 0:
-    new_game.play_a_hand(P['hand'].play_card())
+            if (self.rounds % 26 == 0):
+                self.P.H.shuffle()
+                self.C.H.shuffle()
+            
+            # time.sleep(.5)
+
+            
+class player(object):
+    def __init__(self,name):
+        self.name = name
+        self.H = Hand()
+        self.war = Hand()
+
+player_name = input("Please type your name: ")
+new_game = Game(player_name)
+os.system('cls')
+os.system('clear')
+print ("Game finished after " + str(new_game.rounds) + " rounds")
