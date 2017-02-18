@@ -5,7 +5,10 @@ Assignment: Homework 2 - War card game
 Due: 17 Feb @ 11:59 p.m.
 """
 """
-So this was a fun program, it's still got a few things that could be implimented more effectivly, plus it goes on till the last card, meaning that the game could possibly end during war.
+So this was a fun program, it's still got a few things that could be implimented more effectivly, 
+plus it goes on till the last card, meaning that the game could possibly end during war. I also had
+real trouble getting the hidden card to fit nicely with the card in play on the "table" so I scraped
+that idea for now. Maybe later.
 """
 
 import os
@@ -259,6 +262,8 @@ class Game(object):
                 print(player_name)
                 print()
                 print("War!")
+                self.war_stack.append(PC)
+                self.war_stack.append(CC)
                 self.war_stack.append(self.PH.play_card())
                 self.war_stack.append(self.CH.play_card())
                 #time.sleep(2)
@@ -289,5 +294,5 @@ new_game = Game(player_name)
 
 os.system('cls')
 os.system('clear')
-print('%s won' % new_game.winner)
+print('%s won the game' % new_game.winner)
 print('Game finished after %d rounds'% new_game.rounds)
