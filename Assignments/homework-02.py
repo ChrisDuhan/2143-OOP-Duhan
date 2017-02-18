@@ -2,7 +2,10 @@
 Name: Chris Duhan
 Email: chris.m.duhan@gmail.com
 Assignment: Homework 2 - War card game
-Due: 14 Feb @ 11:00 a.m.
+Due: 17 Feb @ 11:59 p.m.
+"""
+"""
+So this was a fun program, it's still got a few things that could be implimented more effectivly, plus it goes on till the last card, meaning that the game could possibly end during war.
 """
 
 import os
@@ -37,18 +40,13 @@ FACECARD = """\
 │{}│
 └───────┘
 """.format('{trank:<7}', '{suit: <2}', '{brank:>7}')
-HIDDEN_CARD = """\
-┌───────┐
-│░░░░░░░│
-│░░░░░░░│
-│░░░░░░░│
-│░░░░░░░│
-│░░░░░░░│
-└───────┘
-"""
 
+"""
+@Class Card 
+@Description:
+    This class represents a single card. 
+""" 
 class Card(object):
-    
     def __init__(self, suit, rank):
         """
         :param suit: The face of the card, e.g. Spade or Diamond
@@ -113,9 +111,6 @@ class Card(object):
     
     def __lt__(self,other):
         return self.__cmp__(other)
-        
-    def stringy(self):
-        self.ascii = self.__str__()
 
 """
 @Class Deck 
@@ -158,6 +153,7 @@ class Deck(object):
 @Description:
     This class represents a players' hand of cards. 
 @Methods:
+    join_lines() - desciption below
     play_card() - removes a card from top of deck
     add(card) - adds a card to bottom of deck
     shuffle() - shuffles the hand
@@ -203,133 +199,95 @@ class Hand(list):
         if war occurs it makes a war stack and plays again
     
     play() is currently set up to auto-play the whole game, if you want to play each round yourself
-        you can uncomment the commands below that ask for input
+        you can uncomment the commands below that ask for input and that pause
 """ 
 class Game(object):
     def __init__(self,player_name):
         self.D = Deck()
         self.D.shuffle()
 
-        self.C = player("Computer")
-        self.P = player(player_name)
-
+        self.CH = Hand()
+        self.PH = Hand()
+        self.war_stack = []
         self.winner = None
         self.rounds = 0
-        self.cards_in_play = Hand()
         self.deal()
         self.play()
         
     def deal(self):
         for i in range(26):
-            self.C.H.add(self.D.pop_card())
-            self.P.H.add(self.D.pop_card())
-
-    # def compare(self, playerCard, computerCard):
-    #     if(playerCard > computerCard):
-    #         self.win = self.P
-    #     elif (playerCard < computerCard):
-    #         self.win = self.C
-    #     else:
-    #         self.win = "tie"
-    #     return self.win
-
-    def emptyPot(self, winningPlayer):
-        while(len(self.cards_in_play._list)):
-            winningPlayer.H.add(self.cards_in_play.play_card())
-        while(len(self.P.war._list)):
-            self.P.war.play_card()
-        while(len(self.C.war._list)):
-            self.C.war.play_card()
-
-    def tie(self, p, c):
-        os.system('cls')
-        os.system('clear')
-        
-        # only if there is more than one card in a player's hand
-        
-        # exits after popping two cards in to each players war hand and the main pot
-
-        # game continues as normal in main game loop
-        
-        if(len(c.H._list) > 1):
-            c.war.add(c.H._list[0])
-            self.cards_in_play.add(c.H.play_card())
-        if(len(c.H._list) > 1):
-            self.temp = c.H._list[0]
-        
-        # set cards string method to print hidden
-
-            self.temp.ascii = HIDDEN_CARD
-            c.war.add(self.temp)
-            self.cards_in_play.add(c.H.play_card())
-
-        if(len(p.H._list) > 1):
-            p.war.add(p.H._list[0])
-            self.cards_in_play.add(p.H.play_card())
+            self.CH.add(self.D.pop_card())
+            self.PH.add(self.D.pop_card())
             
-        if(len(p.H._list) > 1):
-            self.temp = p.H._list[0]
-
-        # set cards string method to print hidden
-
-            self.temp.ascii = HIDDEN_CARD
-            p.war.add(self.temp)
-            self.cards_in_play.add(p.H.play_card())
-
-        print(c.name + "'s hand:\n")
-        print(c.war)
-        print()
-        print(p.war)
-        print()
-        print(p.name + "'s hand:")
-        print()
-
-        # time.sleep(.5)
-
-
     def play(self):
-        while(len(self.C.H._list) and len(self.P.H._list)):
+        while(len(self.CH._list) and len(self.PH._list)):
             os.system('cls')
             os.system('clear')
-            print(self.C.name)
-            print(self.C.H._list[0])
-            print(self.P.H._list[0])
-            print(self.P.name)
-            print()
+            PC = self.PH.play_card()
+            CC = self.CH.play_card()
             
-            if (self.P.H._list[0].rank == self.C.H._list[0].rank):
-                self.tie(self.P, self.C)
-                
+            if PC.__lt__(CC):
+                print("Computer")
+                print(CC)
+                print(PC)
+                print(player_name)
+                print()
+                print("You lost")
+                #input("Press enter to play a round")
+                self.CH.add(PC)
+                self.CH.add(CC)
+                for i in self.war_stack:
+                  self.CH.add(self.war_stack.pop())
+                  
+            elif CC.__lt__(PC):
+                print("Computer")
+                print(CC)
+                print(PC)
+                print(player_name)
+                print()
+                print("You won")
+                #input("Press enter to play a round")
+                self.PH.add(PC)
+                self.PH.add(CC)
+                for i in self.war_stack:
+                  self.PH.add(self.war_stack.pop())
+                  
             else:
-                self.cards_in_play.add(self.P.H.play_card())
-                self.cards_in_play.add(self.C.H.play_card())
-                self.emptyPot(self.winner)
-                print(self.winner.name + " wins")
-                
-                for card in self.P.H._list:
-                    card.stringy()
-                    
-                for card in self.C.H._list:
-                    card.stringy()
+                print("Computer")
+                print(CC)
+                print(PC)
+                print(player_name)
+                print()
+                print("War!")
+                self.war_stack.append(self.PH.play_card())
+                self.war_stack.append(self.CH.play_card())
+                #time.sleep(2)
+                #input("Press enter to play a war round")
+                os.system('cls')
+                self.play()
 
-            self.rounds = 0
             self.rounds = self.rounds + 1
-
             if (self.rounds % 26 == 0):
-                self.P.H.shuffle()
-                self.C.H.shuffle()
+                self.PH.shuffle()
+                self.CH.shuffle()
+                
+            if len(self.CH._list) == 0:
+                self.winner = "You"
+            if len(self.PH._list) == 0:
+                self.winner = "The computer"
             
             # time.sleep(.5)
 
-            
-class player(object):
-    def __init__(self,name):
-        self.name = name
-        self.H = Hand()
-        self.war = Hand()
-
-player_name = input("Please type your name: ")
-new_game = Game(player_name)
+print("Welcome to the game of")
+print(" _    _   ___  ______  _\n| |  | | / _ \ | ___ \| |\n| |  | |/ /_\ \| |_/ /| |\n| |/\| ||  _  ||    / | |\n\  /\  /| | | || |\ \ |_|\n \/  \/ \_| |_/\_| \_|(_)")
+print()
+input("Press enter to begin")
 os.system('cls')
 os.system('clear')
-print ("Game finished after " + str(new_game.rounds) + " rounds")
+player_name = input("Please type your name: ")
+new_game = Game(player_name)
+
+os.system('cls')
+os.system('clear')
+print('%s won' % new_game.winner)
+print('Game finished after %d rounds'% new_game.rounds)
