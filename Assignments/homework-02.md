@@ -1,3 +1,4 @@
+``` python
 """
 Name: Chris Duhan
 Email: chris.m.duhan@gmail.com
@@ -296,3 +297,4 @@ os.system('cls')
 os.system('clear')
 print('%s won the game' % new_game.winner)
 print('Game finished after %d rounds'% new_game.rounds)
+```
