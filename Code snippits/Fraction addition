@@ -1,0 +1,5 @@
+def __add__(self,rhs):
+        num = (self.num * rhs.den) + (self.den * rhs.num)
+        den = self.den * rhs.den
+        gcd = self._gcd(num,den)
+        return Fraction(num/gcd,den/gcd)
