@@ -1,4 +1,22 @@
 """
+Name: Chris Duhan
+Email: chris.m.duhan@gmail.com
+Assignment: Homework 2 - Grid
+Due: TBD
+"""
+
+from graphics import *    # Zelle's simple OO graphics
+
+class Grid(object):
+  def __init__(self):
+    pass
+  
+
+  
+  
+  
+  
+"""
 Grid display.  
 Displays a rectangular grid of cells, organized in rows and columns
 with row 0 at the top and growing down, column 0 at the left and 
@@ -13,8 +31,6 @@ is built on the Tk graphics package (and which should therefore be
 available on all major Python platforms, including Linux, Mac, and 
 all flavors of Windows at least back to XP). 
 """
-
-from graphics import *    # Zelle's simple OO graphics
 
 global win  # The window we are drawing the grid in
 global cell_width, cell_height  # The size of a cell in the grid
