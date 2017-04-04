@@ -14,6 +14,9 @@ class logger(object):
     self.all_emails = []
     self.emails_sent = []
     self.emails_received = []
+  
+  def __print__(self):
+    return self
 
   def add(self, email):
     self.all_emails.append(email)
