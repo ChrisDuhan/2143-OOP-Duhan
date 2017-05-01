@@ -57,6 +57,7 @@ class Player(object):
         self.Name = name        # My name
         self.TotalScore = 0     # Total score
         self.LastScore = 0      # Score on last turn
+        self.TotalRolls = 0     # Total rolls
         self.LastNumRolls = 0   # Last number of rolls
         self.Opponents = {}     # Dict of opponents
         self.NumDice = num_dice
@@ -146,9 +147,11 @@ class Player(object):
         if self.Strategy == 'Random':
             Score,NumRolls = self.RandomRoll()
         elif self.Strategy == 'Aggressive':
-            pass
+            self.target_score = 50
+            self.target_rolls = 17
         elif self.Strategy == 'Cautious':
-            pass
+            self.target_score = 18
+            self.target_rolls = 3
         elif self.Strategy == 'Robust':
             pass
         elif self.Strategy == 'CopyCat':
