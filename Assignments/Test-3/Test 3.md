@@ -1,6 +1,25 @@
+##**Q3**
+```python
+class shape():
+  def __init__(self):
+    self.length = 0
+  
+  def area(self):
+    self.shapes_area = 0
+  
+class square(shape):
+  def __init__(self, length):
+    self.length = length
+  
+  def area(self):
+    self.squares_area = self.length * self.length
+    return self.squares_area
+    
+aSquare= square(3)
+print(aSquare.area())
+```
 ## **Q4**
 ```python
-#count dup letters
 def counter(s):
   l = list(s)
   contains = []
@@ -18,7 +37,6 @@ print(counter("aabbcde"))
 ```
 ## **Q5**
 ```python
-#non consecutive
 def check(l):
   check_count = l[0]
   for i in range(len(l)):
