@@ -1,3 +1,4 @@
+##**Q4**
 ```python
 #count dup letters
 def counter(s):
@@ -15,7 +16,7 @@ def counter(s):
 
 print(counter("aabbcde"))
 ```
-_*Q5*_
+##**Q5**
 ```python
 #non consecutive
 def check(l):
