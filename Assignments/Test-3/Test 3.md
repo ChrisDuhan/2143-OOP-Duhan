@@ -11,7 +11,32 @@ def dirReduc(lst):
 dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]) => ["WEST"]
 dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"]) => []
 ```
-
+## **Q2**
+```python
+def makeChange(queue):
+  bill25 = 0
+  bill50 = 0
+  if (queue[0] == 50) or (queue[0] == 100):
+    return "NO"
+  elif queue[1] == 100:
+    return "NO"
+  else:
+    for i in range(len(queue)):
+      if (queue[i] == 25):
+        bill25 += 1
+      elif (queue[i] == 50) and (bill25 >= 1):
+        bill50 += 1
+        bill25 -= 1
+      elif (queue[i] == 100) and ((bill50 >= 1 and bill25 >= 1) or (bill25 >= 3)):
+        if bill50 >= 1:
+          bill50 -= 1
+          bill25 -= 1
+        else:
+          bill25 -= 3
+      else:
+        return "NO"
+  return "YES"
+```
 ## **Q3**
 ```python
 from math import sqrt
