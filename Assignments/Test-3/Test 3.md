@@ -1,3 +1,17 @@
+## **Q1**
+```python
+def dirReduc(lst):
+  reducableSteps = [("NORTH","SOUTH"),("SOUTH","NORTH"),("EAST","WEST"), ("WEST","EAST")]
+  for i in range(len(lst)-1):
+    for j in range(len(reducableSteps)):
+      if lst[i],lst[i+1] == reducableSteps[j]:
+        lst.pop(i)
+        lst.pop(i)
+
+dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]) => ["WEST"]
+dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"]) => []
+```
+
 ## **Q3**
 ```python
 from math import sqrt
