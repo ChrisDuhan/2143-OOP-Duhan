@@ -1,22 +1,60 @@
 ## **Q3**
 ```python
-class shape():
-  def __init__(self):
-    self.length = 0
+from math import sqrt
+from math import pow
+
+class point(object):
+  def __init__(self,x,y):
+    self.x = x
+    self.y = y
+    
+  def __str__(self):
+    return "[%d,%d]" % (self.x, self.y)
+
+class Shape(object):
+  def __init(self,p1,p2):
+      self.p1 = p1
+      self.p2 = p2
   
   def area(self):
-    self.shapes_area = 0
+      pass
   
-class square(shape):
-  def __init__(self, length):
-    self.length = length
+class Square(Shape):
+  def __init__(self,p1):
+    self.length = p1
   
+  def perimeter(self):
+    self.per = self.length * 4
+    return self.per
+    
   def area(self):
     self.squares_area = self.length * self.length
     return self.squares_area
+  
+class Rectangle(Shape):
+  def __init__(self,p1,p2):
+    self.h = p1
+    self.w = p2
+  
+  def perimeter(self):
+    self.per = (self.h + self.w) * 2
+    return self.per
     
-aSquare= square(3)
-print(aSquare.area())
+  def area(self):
+    self.rec_area = self.h * self.w
+    return self.rec_area
+
+class Cube(Square):
+  def __init__(self,p1):
+    self.length = p1
+
+  def surfaceArea(self):
+    self.s_area = self.length * self.length * 6
+    return self.s_area
+  
+  def volume(self):
+    self.vol = self.length * self.length * self.length
+    return self.vol
 ```
 ## **Q4**
 ```python
