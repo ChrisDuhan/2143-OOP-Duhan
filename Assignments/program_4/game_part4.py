@@ -128,7 +128,8 @@ class Player(object):
         self.round_rolls += 1
         roll = self.dice.Roll()
         if roll == 0:
-            break
+          self.round_score = 0  
+          break
         self.round_score += roll
     self.score += self.round_score
     self.tot_rolls += self.round_rolls
@@ -278,4 +279,4 @@ for i in range(runs):
   P.NewGame()
 
 for winner,wins in Winners.items():
-  print(winner,len(wins),sum(wins)/len(wins))
+  print(winner,winner.strategy,sum(wins)/len(wins))
