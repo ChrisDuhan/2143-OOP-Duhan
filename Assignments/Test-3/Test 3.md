@@ -155,9 +155,6 @@ class Child(Person):
 from random import randint
 class RoulettWheel(object):
     def __init__(self):
-      """
-      Tell me what, why, where ...
-      """
       self.wheel = {00:"green",0:"green",1:"red",2:"black",3:"red",4:"black",5:"red",6:"black",7:"red",8:"black",9:"red",10:"black",11:"black",12:"red",13:"black",14:"red",15:"black",16:"red",17:"black",18:"red",19:"red",20:"black",21:"red",22:"black",23:"red",24:"black",25:"red",26:"black",27:"red",28:"black",29:"black",30:"red",31:"black",32:"red",33:"black",34:"red",35:"black",36:"red"}
 
     def spin(self):
@@ -166,8 +163,44 @@ class RoulettWheel(object):
         num = 0
       elif num == 38:
         num = 00
-      return self.wheel[num]
+      #return self.wheel[num]
+      
+      for k in self.wheel:
+            if num in self.wheel[k]:
+                res = {'Number':int(num), 'Color':str(k)}
+                return res
 
-t = RoulettWheel()
-print(t.spin())
+class bet(object):
+  def __init__(self, startamt, val, spot1, spot2):
+    self.chips = startamt #how much is placed down
+    self.payout = val #the payout multiplier if they win
+    #spots 1 and 2 will be used to ensure the bet is in a valid location on the table, if spot 1 and 2 are the same the bet is on a single number, if they are different we'll check for the payout to see if it's a double or quardruple, if double we make sure the two numbers are adjacent, if quardruple we'll see if the numbers are caty-cornered. If the bet is not valid we can provide output to the user.
+
+class Player(object):
+  def __init__(self, name, buyin):
+    self.name = name
+    self.wallet = buyin
+    """
+    For now I see the game being played with a single player, but could be expanded by adding a player list to the game class.
+    """
+    pass
+  
+class RouletteTable(object):
+  def __init__(self):
+    """
+    RouletteTable will provide a way to track how much is in a bet, and where it is placed.
+    There are some numbers that while they are sequential in a numberline, they are not neighbors on the roulette table.
+    For this reason the table might be best stored as a 2D array, so that any number can check its neighbors depending on what type of bet is placed.
+    We would also have seperate spots for non-integer bets, (two-to-one, etc.) and special handeling for the zeros and who their neighbors are.
+    RouletteTable will recieve the value from RouletteWheel once called and then check to see if: the number is one of the spots of their bet, if it fulfills a 1 to 18, 1 to 12, or similar bet, and make a payout if appropiete.
+    """
+    pass
+  
+class game(object):
+  def __init__(self, player, buy_in):
+    self.player = Player(player, buy_in)
+    self.table = RouletteTable()
+    self.wheel = RouletteWheel()
+    """
+    The game object will control the flow of players, if we choose to expand for more players, and even if not will check to see if the player wants to continue makong bets after each payout.
 ```
