@@ -7,9 +7,10 @@ def dirReduc(lst):
       if lst[i],lst[i+1] == reducableSteps[j]:
         lst.pop(i)
         lst.pop(i)
-
-dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]) => ["WEST"]
-dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"]) => []
+"""
+This is not working, I though I had a way to solve it but once you went back and clarified it made my way technicly ineffective.
+While it still would have worked it didnt solve it in the way asked.
+"""
 ```
 ## **Q2**
 ```python
@@ -108,9 +109,6 @@ def counter(s):
       if not i in dups:
         dups.append(l[i])
   return dups
-
-
-print(counter("aabbcde"))
 ```
 ## **Q5**
 ```python
@@ -136,8 +134,6 @@ class Person(object):
 class Parent(Person):
   def __init__(self, firstname, lastname, child):
     super().__init__(firstname, lastname)
-    self.firstname = firstname
-    self.lastname = lastname
     self.children = [child]
   
   def addChildren(self, newchild):
@@ -146,8 +142,6 @@ class Parent(Person):
 class Child(Person):
   def __init__(self, firstname, lastname, parent):
     super().__init__(firstname, lastname)
-    self.firstname = firstname
-    self.lastname = lastname
     self.parent = parent
 ```
 ## **Q7**
