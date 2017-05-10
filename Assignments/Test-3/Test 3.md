@@ -1,4 +1,9 @@
 ```python
+Chris Duhan
+2143 OOP
+Dr. Griffin
+May 10,2017
+
 So the closest I came to useing code was looking up how to use certain things, the closest thing to being copied was the super init in the person-parent-child problem, if that counts I got it from stackoverflow.com.
 ```
 ## **Q1**
